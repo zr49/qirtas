@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}الرئيسية - مدونة المبرمج{% endblock %}
+
+{% block content %}
+
+    {% if query %}
+        <div class="mb-5 pb-3 border-bottom">
+            <h2 class="h4">نتائج البحث عن: <span class="text-primary">"{{ query }}"</span></h2>
+            <p class="text-muted">
+                {% if posts %}
+                    ✅ تم العثور على <strong>{{ posts.count }}</strong> مقال(ات) تتناسب مع بحثك.
+                {% else %}
+                    <span class="text-danger">❌ نأسف، لا توجد مقالات منشورة تطابق هذا البحث.</span>
+                {% endif %}
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-sm btn-secondary">العودة لكافة المقالات</a>
+        </div>
+    {% else %}
+        <h2 class="mb-4 text-primary border-bottom pb-2">أحدث المقالات المنشورة</h2>
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="card mb-4 border-0 shadow-sm p-3 bg-white rounded">
+            <div class="card-body px-0">
+                
+                <div class="mb-2">
+                    {% if post.category %}
+                        <span class="badge bg-info text-dark px-3 py-2">{{ post.category.name }}</span>
+                    {% else %}
+                        <span class="badge bg-light text-muted px-3 py-2">عام</span>
+                    {% endif %}
+                </div>
+
+                <h3 class="card-title h2">
+                    <a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark hover-primary">{{ post.title }}</a>
+                </h3>
+                
+                <p class="text-muted small">
+                    <i class="bi bi-person"></i> بواسطة: <strong>{{ post.author }}</strong> | 
+                    <i class="bi bi-calendar"></i> التاريخ: {{ post.date_created|date:"d M Y" }}
+                </p>
+                
+                <p class="card-text text-secondary">{{ post.content|truncatewords:30 }}</p>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-primary">إكمال القراءة &larr;</a>
+                    <span class="text-muted small"><i class="bi bi-chat"></i> {{ post.comments.count }} تعليقات</span>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="text-center py-5">
+            <p class="text-muted">لا توجد مقالات منشورة حالياً في هذا القسم.</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

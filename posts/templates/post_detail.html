@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <article>
+        <h2 class="text-primary">{{ post.title }}</h2>
+        <p class="text-muted small">نُشر في: {{ post.date_created }} | بواسطة: {{ post.author }}</p>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded mb-4 shadow-sm">
+        {% endif %}
+
+        <div class="content mb-5" style="line-height: 1.8; font-size: 1.1rem;">
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+
+    <hr>
+
+    <section class="mt-5">
+        <h3 class="mb-4">التعليقات ({{ comments.count }})</h3>
+        
+        {% for comment in comments %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-primary fw-bold">{{ comment.author }}</h6>
+                    <p class="card-text">{{ comment.text }}</p>
+                    <small class="text-muted">{{ comment.created_date|date:"Y-m-d H:i" }}</small>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted italic">لا توجد تعليقات بعد. كن أول من يعلق!</p>
+        {% endfor %}
+
+        <hr class="my-5">
+
+        <div class="bg-light p-4 rounded shadow-sm">
+            <h4 class="mb-3">أضف تعليقك</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary px-4">إرسال التعليق</button>
+            </form>
+        </div>
+    </section>
+
+    <div class="mt-5">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">← العودة للرئيسية</a>
+    </div>
+{% endblock %}

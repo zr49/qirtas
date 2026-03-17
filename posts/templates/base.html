@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}قِرطاس | ملخصات كتب، خواطر، وتجارب فكرية{% endblock %}</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary-color: #0dcaf0; /* لون التوقيع البرمجي ZR DEV STUDIO */
+            --brand-color: #f8f9fa;   /* لون اسم الموقع */
+        }
+        body { 
+            background-color: #f4f7f6; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6;
+        }
+        .main-container { margin-top: 40px; margin-bottom: 60px; }
+        
+        /* تنسيق الصور داخل المقالات */
+        .post-img { 
+            max-height: 450px; 
+            object-fit: cover; 
+            width: 100%; 
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* تحسين مظهر شريط البحث */
+        .search-input { border-radius: 25px 0 0 25px; border-color: #444; }
+        .search-btn { border-radius: 0 25px 25px 0; padding-left: 20px; padding-right: 20px; }
+        
+        /* تنسيق التذييل (Footer) مع توقيع المطور */
+        footer { 
+            background: #1a1d20; 
+            color: #ced4da; 
+            padding: 50px 0 30px 0; 
+            border-top: 4px solid var(--primary-color); 
+        }
+        .dev-signature {
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+        .footer-line {
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+            margin: 15px auto;
+            opacity: 0.5;
+        }
+        .navbar-brand {
+            font-size: 1.8rem !important;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                قِرطاس
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}"><i class="bi bi-house-door"></i> الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/"><i class="bi bi-person-workspace"></i> لوحة التحكم</a>
+                    </li>
+                </ul>
+                
+                <form class="d-flex" action="{% url 'home' %}" method="GET">
+                    <input class="form-control me-0 search-input shadow-none" type="search" name="q" placeholder="ابحث في قِرطاس..." aria-label="Search" value="{{ request.GET.q }}">
+                    <button class="btn btn-info search-btn text-white" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 bg-white p-4 p-md-5 rounded-4 shadow-sm border">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center">
+        <div class="container">
+            <h4 class="fw-bold text-white mb-2">قِرطاس</h4>
+            <p class="small text-muted mb-4">مساحة لملخصات الكتب، الروايات، والخواطر العميقة</p>
+            
+            <div class="footer-line"></div>
+            
+            <p class="mb-1 small">جميع الحقوق محفوظة &copy; 2026</p>
+            
+            <div class="mt-4">
+                <span class="text-secondary small d-block mb-1" style="font-size: 0.75rem;">HANDCRAFTED BY</span>
+                <span class="dev-signature fw-bold">ZR DEV STUDIO</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
