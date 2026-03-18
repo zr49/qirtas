@@ -1,1 +1,1 @@
-web: gunicorn qirtas.wsgi
+web: gunicorn blog_project.wsgi
